@@ -1,4 +1,4 @@
-package metaballs
+package myballs
 
 import "core:fmt"
 import "core:math"
