@@ -1,10 +1,10 @@
-# 🎨 myballs
+# myballs
 
 **myballs** is a lightweight GPU fragment shader toy that renders dynamic *metaballs* based on proximity and blending. It's built for fun, visual experimentation, and possibly giggles.
 
 By default, the balls are rendered with randomized vibrant colors, but grayscale will give a more pronounced effect for visualizing proximity blending (aka the "metaballiness").
 
-## 🛠️ Build and Run
+## Build and Run
 
 Make sure you have [Odin](https://odin-lang.org/) installed.
 
@@ -12,7 +12,7 @@ Make sure you have [Odin](https://odin-lang.org/) installed.
 odin build .
 ./myballs
 ```
-## 🎮 Controls
+## Controls
 
 <kbd>D</kbd> — Toggle debug view (shows influence circles)
 
@@ -20,7 +20,7 @@ odin build .
 
 <kbd>Right Mouse Button</kbd> — Attract my balls (gravity toward cursor)
 
-## 📸 Preview
+## Preview
 
 <img src="./img/preview.gif" alt="Preview GIF" width="480"/>
 
