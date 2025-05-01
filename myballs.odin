@@ -164,32 +164,6 @@ main :: proc() {
 			}
 		}
 
-		// Per pixel manipualtion(CPU)
-		// for x in 0 ..< WIDTH {
-		// 	for y in 0 ..< HEIGHT {
-		// 		pixel: [2]f32 = {f32(x), f32(y)}
-		// 		color_value: f32 = 0
-		// 		color_blend: rl.Color = rl.Color{0x60, 0x60, 0x60, 255}
-		// 		for mb in METABALLS {
-		// 			d := rl.Vector2DistanceSqrt(pixel, mb.pos + mb.radius)
-
-		// 			color := 150 * mb.radius / d
-		// 			color_value += color
-		// 			color_value = rl.Clamp(color_value, 0, 1)
-		// 			mb_color := rl.ColorFromHSV(mb.color_hue, 1, 1)
-		// 			color_blend = rl.ColorAlphaBlend(
-		// 				rl.ColorAlpha(color_blend, 1),
-		// 				rl.ColorAlpha(mb_color, rl.Clamp(color, 0, 1)),
-		// 				rl.ColorAlpha(color_blend, 1),
-		// 			)
-
-		// 		}
-		// 		hsv := rl.ColorToHSV(color_blend)
-		// 		rl.DrawPixel(i32(x), i32(y), rl.ColorFromHSV(hsv.x, hsv.y, color_value))
-		// 		color_value = 0
-		// 	}
-		// }
-
 		// Custom shader
 		resolution := rl.Vector2{f32(rl.GetScreenWidth()), f32(rl.GetScreenHeight())}
 		rl.SetShaderValue(mb_shader, u_resolution, &resolution, .VEC2)
