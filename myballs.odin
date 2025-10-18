@@ -50,7 +50,7 @@ generate_metaballs :: proc() {
 }
 
 
-mb_fragment_shader_file := #load("./myballs.fs", string)
+mb_fragment_shader_file: string = #load("./myballs.fs", string)
 
 main :: proc() {
 	rl.InitWindow(width = WIDTH, height = HEIGHT, title = "Myballs Demo")
@@ -107,31 +107,32 @@ main :: proc() {
 				rl.GetFrameTime() / MAX_METABALLS,
 			)
 
-			for &other_mb, index in METABALLS {
+			for &other_mb, j in METABALLS {
+				if i == j {continue} 	// skip self
 				if rl.IsMouseButtonDown(.RIGHT) {break}
-				if rl.Vector2Distance(other_mb.pos, mb.pos) < 200 && mb.radius > other_mb.radius {
-					mb_direction := other_mb.pos - mb.pos
-					mb_direction = rl.Vector2Normalize(mb_direction) * -1
-					mbs_distance := rl.Vector2Distance(other_mb.pos, mb.pos)
 
-					if mbs_distance <= other_mb.radius {
-						mb_direction *= -1
-					}
+				delta := other_mb.pos - mb.pos
+				distance := rl.Vector2Length(delta)
 
-					if !rl.CheckCollisionCircles(
-						mb.pos + mb.radius,
-						mb.radius,
-						other_mb.pos + other_mb.radius,
-						other_mb.radius,
-					) {
-						mb_direction *= -1
-					}
+				if distance < 0.1 {continue}
 
-					other_mb.direction = linalg.lerp(
-						other_mb.direction,
-						mb_direction,
-						rl.GetFrameTime(),
-					)
+				direction_normalized := rl.Vector2Normalize(delta)
+
+				// check if circles are colliding
+				collision_distance := mb.radius + other_mb.radius
+
+				if distance < collision_distance {
+					// REPULSION
+					repulsion_force := (collision_distance - distance) * 5.0
+					mb.direction -= direction_normalized * repulsion_force * rl.GetFrameTime()
+					mb.direction = rl.Vector2Normalize(mb.direction)
+				} else {
+					// ATTRACTION
+					attraction_strength: f32 = 100.0
+					attraction_force :=
+						attraction_strength / (distance * distance) * (mb.radius + other_mb.radius)
+					mb.direction += direction_normalized * attraction_force * rl.GetFrameTime()
+					mb.direction = rl.Vector2Normalize(mb.direction)
 				}
 			}
 
@@ -159,7 +160,6 @@ main :: proc() {
 					if mb.speed.x < og_speed.x * 5 || mb.speed.y < og_speed.y * 5 {
 						mb.speed *= 1.5
 					}
-
 				}
 			}
 		}
